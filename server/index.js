@@ -12,27 +12,42 @@ const MONGODB_URI =
   process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/mern_offline_db";
 const CLIENT_ORIGINS = (process.env.CLIENT_ORIGIN || "")
   .split(",")
-  .map((origin) => origin.trim())
+  .map((origin) => origin.trim().replace(/\/+$/, ""))
   .filter(Boolean);
 
 app.use((req, res, next) => {
   const origin = req.get("Origin");
   if (!origin) return next();
 
+  const normalizedOrigin = origin.trim().replace(/\/+$/, "");
+
   const isLocalDevelopmentOrigin =
     process.env.NODE_ENV !== "production" &&
-    /^https?:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin);
+    /^https?:\/\/(localhost|127\.0\.0\.1):\d+$/.test(normalizedOrigin);
 
-  if (!isLocalDevelopmentOrigin && !CLIENT_ORIGINS.includes(origin)) {
-    return res.status(403).json({ message: "Origin is not allowed." });
-  }
+  const isAllowedOrigin =
+    isLocalDevelopmentOrigin ||
+    CLIENT_ORIGINS.includes(normalizedOrigin) ||
+    /^https:\/\/debuger(-[a-z0-9-]+)?\.vercel\.app$/.test(normalizedOrigin);
 
   res.setHeader("Access-Control-Allow-Origin", origin);
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
   res.setHeader("Vary", "Origin");
 
-  if (req.method === "OPTIONS") return res.sendStatus(204);
+  if (req.method === "OPTIONS") {
+    if (!isAllowedOrigin) {
+      console.warn(`[CORS] Disallowed preflight origin: ${origin}`);
+      return res.status(403).json({ message: "Origin is not allowed." });
+    }
+    return res.sendStatus(204);
+  }
+
+  if (!isAllowedOrigin) {
+    console.warn(`[CORS] Disallowed origin: ${origin}`);
+    return res.status(403).json({ message: "Origin is not allowed." });
+  }
+
   return next();
 });
 
@@ -136,7 +151,12 @@ async function startServer() {
   if (process.env.NODE_ENV === "production") {
     const missingVariables = [];
     if (!process.env.MONGODB_URI) missingVariables.push("MONGODB_URI");
-    if (CLIENT_ORIGINS.length === 0) missingVariables.push("CLIENT_ORIGIN");
+
+    if (CLIENT_ORIGINS.length === 0) {
+      console.warn(
+        "Warning: CLIENT_ORIGIN environment variable is not set. Using built-in whitelist.",
+      );
+    }
 
     if (missingVariables.length > 0) {
       console.error(

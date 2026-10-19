@@ -87,16 +87,23 @@ export default function Contact() {
 
     setIsSending(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/users`, {
+      const endpoint = `${API_BASE_URL}/api/users`;
+      const response = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      const result = await response.json();
+
+      let result = null;
+      try {
+        result = await response.json();
+      } catch {
+        // Response is not JSON
+      }
 
       if (!response.ok) {
         throw new Error(
-          result.message || "Your message could not be sent. Please try again.",
+          result?.message || `Request failed with status ${response.status}`,
         );
       }
 
@@ -107,11 +114,14 @@ export default function Contact() {
         message: "Thanks for reaching out! Your message was sent successfully.",
       });
     } catch (error) {
+      console.error("Contact form submission error:", error);
       setNotice({
         type: "error",
         message:
           error instanceof Error
-            ? error.message
+            ? error.message === "Failed to fetch"
+              ? "Cannot connect to server. If the backend was sleeping or waking up, please wait a moment and try again, or email me directly at debuglife1221@gmail.com."
+              : error.message
             : "A network error occurred. Feel free to email me directly at debuglife1221@gmail.com.",
       });
     } finally {
