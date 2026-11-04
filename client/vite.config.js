@@ -1,14 +1,10 @@
-import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite"; // Tailwind v4 ካለህ
 
 export default defineConfig({
-  plugins: [react()],
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://127.0.0.1:5000',
-        changeOrigin: true,
-      },
-    },
+  plugins: [react(), tailwindcss()],
+  build: {
+    outDir: "dist", // ቪቴ ፋይሉን እዚህ ፎልደር ውስጥ እንዲያስቀምጥ ያስገድደዋል
   },
-})
+});
