@@ -172,9 +172,13 @@ async function startServer() {
       ? "Offline 🔌"
       : "Remote ☁️";
     console.log("MongoDB Connected", connectionLabel);
-    app.listen(PORT, () => {
-      console.log(`Server listening on port ${PORT}`);
-    });
+
+    // Only listen if not running on Vercel
+    if (!process.env.VERCEL) {
+      app.listen(PORT, () => {
+        console.log(`Server listening on port ${PORT}`);
+      });
+    }
   } catch (error) {
     console.error("MongoDB connection failed:", error.message);
     process.exit(1);
