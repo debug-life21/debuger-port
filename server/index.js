@@ -28,7 +28,7 @@ app.use((req, res, next) => {
   const isAllowedOrigin =
     isLocalDevelopmentOrigin ||
     CLIENT_ORIGINS.includes(normalizedOrigin) ||
-    /^https:\/\/debuger(-[a-z0-9-]+)?\.vercel\.app$/.test(normalizedOrigin);
+    /^https:\/\/debugger(-[a-z0-9-]+)?\.vercel\.app$/.test(normalizedOrigin);
 
   res.setHeader("Access-Control-Allow-Origin", origin);
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
@@ -182,3 +182,5 @@ async function startServer() {
 }
 
 startServer();
+
+module.exports = app;
