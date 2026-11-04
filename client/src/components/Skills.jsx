@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Icon from "./Icons.jsx";
+import Reveal from "./Reveal.jsx";
 
 const skillCategories = [
   {
@@ -10,12 +11,12 @@ const skillCategories = [
     headline: "Core JavaScript Ecosystem",
     description: "End-to-end web engineering with React, Node, Express, and MongoDB.",
     skills: [
-      { name: "React.js", level: "Advanced", tag: "Frontend" },
-      { name: "Node.js", level: "Proficient", tag: "Runtime" },
-      { name: "Express.js", level: "Proficient", tag: "Backend Framework" },
-      { name: "MongoDB / Mongoose", level: "Proficient", tag: "NoSQL DB" },
-      { name: "RESTful APIs", level: "Advanced", tag: "Architecture" },
-      { name: "Authentication / JWT", level: "Proficient", tag: "Security" },
+      { name: "React.js", tag: "Frontend" },
+      { name: "Node.js", tag: "Runtime" },
+      { name: "Express.js", tag: "Backend Framework" },
+      { name: "MongoDB / Mongoose", tag: "NoSQL DB" },
+      { name: "RESTful APIs", tag: "Architecture" },
+      { name: "Authentication / JWT", tag: "Security" },
     ],
   },
   {
@@ -24,30 +25,30 @@ const skillCategories = [
     icon: "layers",
     color: "violet",
     headline: "Pixel-Perfect Experiences",
-    description: "Responsive layouts, intuitive component designs, and modern CSS.",
+    description: "Responsive layouts, intuitive component design, and modern CSS.",
     skills: [
-      { name: "JavaScript (ES6+)", level: "Advanced", tag: "Language" },
-      { name: "Tailwind CSS", level: "Advanced", tag: "Styling" },
-      { name: "HTML5 & Semantic Markup", level: "Advanced", tag: "Structure" },
-      { name: "CSS3 / Flexbox & Grid", level: "Advanced", tag: "Layouts" },
-      { name: "Responsive & Mobile-First", level: "Advanced", tag: "UX" },
-      { name: "DOM & Fetch API", level: "Advanced", tag: "Interactivity" },
+      { name: "JavaScript (ES6+)", tag: "Language" },
+      { name: "Tailwind CSS", tag: "Styling" },
+      { name: "HTML5 & Semantic Markup", tag: "Structure" },
+      { name: "CSS3 / Flexbox & Grid", tag: "Layouts" },
+      { name: "Responsive & Mobile-First", tag: "UX" },
+      { name: "UI Animation & Motion", tag: "Interactivity" },
     ],
   },
   {
     id: "marketing",
     name: "Digital Marketing & SEO",
-    icon: "trendingUp",
+    icon: "megaphone",
     color: "cyan",
     headline: "Traffic, Visibility & Growth",
     description: "Data-driven strategies to boost online reach, engagement, and conversion.",
     skills: [
-      { name: "Search Engine Optimization (SEO)", level: "Proficient", tag: "Search" },
-      { name: "Social Media Marketing", level: "Proficient", tag: "Outreach" },
-      { name: "Web Analytics & Metrics", level: "Proficient", tag: "Data" },
-      { name: "Content Strategy", level: "Proficient", tag: "Brand" },
-      { name: "Conversion Optimization (CRO)", level: "Intermediate", tag: "Growth" },
-      { name: "Digital Campaign Management", level: "Intermediate", tag: "Acquisition" },
+      { name: "Search Engine Optimization (SEO)", tag: "Search" },
+      { name: "Keyword & Audience Research", tag: "Strategy" },
+      { name: "Social Media Marketing", tag: "Outreach" },
+      { name: "Content Strategy", tag: "Brand" },
+      { name: "Web Analytics & Metrics", tag: "Data" },
+      { name: "Conversion Optimization (CRO)", tag: "Growth" },
     ],
   },
   {
@@ -58,30 +59,24 @@ const skillCategories = [
     headline: "University Grounding",
     description: "Computer science theory, algorithms, relational databases, and server basics.",
     skills: [
-      { name: "Data Structures & Algorithms", level: "Proficient", tag: "Theory" },
-      { name: "MySQL / Relational DB", level: "Proficient", tag: "SQL" },
-      { name: "PHP (Basics & CRUD)", level: "Intermediate", tag: "Backend" },
-      { name: "Object-Oriented Programming", level: "Proficient", tag: "Paradigm" },
-      { name: "Software Design", level: "Proficient", tag: "Engineering" },
-      { name: "Computer Networking Basics", level: "Proficient", tag: "Systems" },
+      { name: "Data Structures & Algorithms", tag: "Theory" },
+      { name: "MySQL / Relational DB", tag: "SQL" },
+      { name: "Object-Oriented Programming", tag: "Paradigm" },
+      { name: "Software Design", tag: "Engineering" },
+      { name: "PHP (Basics & CRUD)", tag: "Backend" },
+      { name: "Computer Networking Basics", tag: "Systems" },
     ],
   },
-  {
-    id: "tools",
-    name: "Tools & Workflow",
-    icon: "terminal",
-    color: "cyan",
-    headline: "Productive Development",
-    description: "Version control, API testing, fast bundling, and collaborative workflows.",
-    skills: [
-      { name: "Git & GitHub", level: "Proficient", tag: "Version Control" },
-      { name: "VS Code", level: "Advanced", tag: "IDE" },
-      { name: "Postman", level: "Proficient", tag: "API Testing" },
-      { name: "Vite", level: "Proficient", tag: "Build Tool" },
-      { name: "Linux / CLI Basics", level: "Intermediate", tag: "OS" },
-      { name: "npm / Package Ecosystem", level: "Proficient", tag: "Dependencies" },
-    ],
-  },
+];
+
+const colorMap = {
+  cyan: "border-cyan-400/20 bg-cyan-400/10 text-cyan-300",
+  violet: "border-violet-400/20 bg-violet-400/10 text-violet-300",
+};
+
+const filterTabs = [
+  { id: "all", name: "All Skills", icon: "spark" },
+  ...skillCategories.map((cat) => ({ id: cat.id, name: cat.name, icon: cat.icon })),
 ];
 
 export default function Skills() {
@@ -95,40 +90,31 @@ export default function Skills() {
   return (
     <section id="skills" className="section-space relative">
       <div className="section-shell">
-        <div className="mb-14 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+        <Reveal className="mb-14 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
           <div>
             <div className="eyebrow mb-3">
               <span className="eyebrow-dot" />
               Technical Arsenal
             </div>
             <h2 className="font-heading text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl">
-              Skills &amp; <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-sky-200 to-violet-400">Expertise</span>
+              Skills &amp;{" "}
+              <span className="animated-gradient-text">Expertise</span>
             </h2>
           </div>
           <p className="max-w-md text-sm leading-relaxed text-slate-400 sm:text-base">
-            From modern JavaScript full-stack development to technical search engine optimization and digital marketing strategy.
+            From full-stack JavaScript engineering to front-end craft and
+            technical SEO — everything I use to ship and grow a platform.
           </p>
-        </div>
+        </Reveal>
 
         {/* Filter Tabs */}
-        <div className="mb-10 flex flex-wrap items-center gap-2">
-          <button
-            type="button"
-            onClick={() => setActiveCategory("all")}
-            className={`rounded-xl px-4 py-2 text-xs font-semibold transition cursor-pointer ${
-              activeCategory === "all"
-                ? "bg-cyan-400 text-slate-950 shadow-md shadow-cyan-400/20"
-                : "border border-slate-800 bg-slate-900/60 text-slate-300 hover:border-slate-700 hover:text-white"
-            }`}
-          >
-            All Skills
-          </button>
-          {skillCategories.map((cat) => (
+        <Reveal delay={80} className="mb-10 flex flex-wrap items-center gap-2">
+          {filterTabs.map((cat) => (
             <button
               key={cat.id}
               type="button"
               onClick={() => setActiveCategory(cat.id)}
-              className={`rounded-xl px-4 py-2 text-xs font-semibold transition cursor-pointer flex items-center gap-2 ${
+              className={`flex cursor-pointer items-center gap-2 rounded-xl px-4 py-2 text-xs font-semibold transition ${
                 activeCategory === cat.id
                   ? "bg-cyan-400 text-slate-950 shadow-md shadow-cyan-400/20"
                   : "border border-slate-800 bg-slate-900/60 text-slate-300 hover:border-slate-700 hover:text-white"
@@ -138,23 +124,21 @@ export default function Skills() {
               <span>{cat.name}</span>
             </button>
           ))}
-        </div>
+        </Reveal>
 
         {/* Skills Grid */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {displayedCategories.map((group) => (
-            <article
+        <div className="grid gap-6 md:grid-cols-2">
+          {displayedCategories.map((group, index) => (
+            <Reveal
               key={group.id}
-              className="glow-card flex flex-col justify-between rounded-3xl border border-slate-800/80 bg-slate-950/60 p-6 sm:p-7 backdrop-blur-sm transition duration-300 hover:-translate-y-1"
+              delay={(index % 2) * 90}
+              as="article"
+              className="glow-card flex flex-col justify-between rounded-3xl border border-slate-800/80 bg-slate-950/60 p-6 backdrop-blur-sm transition duration-300 hover:-translate-y-1 sm:p-7"
             >
               <div>
                 <div className="flex items-center justify-between">
                   <span
-                    className={`flex h-11 w-11 items-center justify-center rounded-xl border ${
-                      group.color === "cyan"
-                        ? "border-cyan-400/20 bg-cyan-400/10 text-cyan-300"
-                        : "border-violet-400/20 bg-violet-400/10 text-violet-300"
-                    }`}
+                    className={`flex h-11 w-11 items-center justify-center rounded-xl border ${colorMap[group.color]}`}
                   >
                     <Icon name={group.icon} size={20} />
                   </span>
@@ -166,7 +150,7 @@ export default function Skills() {
                 <h3 className="mt-5 font-heading text-lg font-bold text-white">
                   {group.name}
                 </h3>
-                <p className="mt-1.5 text-xs text-slate-400 leading-relaxed">
+                <p className="mt-1.5 text-xs leading-relaxed text-slate-400">
                   {group.description}
                 </p>
 
@@ -185,18 +169,17 @@ export default function Skills() {
                 </div>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-slate-800/50 flex items-center justify-between text-[11px] text-slate-400">
+              <div className="mt-6 flex items-center justify-between border-t border-slate-800/50 pt-4 text-[11px] text-slate-400">
                 <span>Continuously practicing</span>
-                <span className="text-emerald-400 flex items-center gap-1 font-medium">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="flex items-center gap-1 font-medium text-emerald-400">
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
                   Active
                 </span>
               </div>
-            </article>
+            </Reveal>
           ))}
         </div>
       </div>
     </section>
   );
 }
-

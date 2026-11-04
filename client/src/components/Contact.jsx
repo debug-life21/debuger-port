@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import Icon from "./Icons.jsx";
+import Reveal from "./Reveal.jsx";
 
 const initialForm = { name: "", email: "", message: "" };
 const API_BASE_URL = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
+const tlhUrl = "https://tedbabelearnhub.vercel.app";
 
 const contactChannels = [
   {
@@ -18,6 +20,13 @@ const contactChannels = [
     href: "tel:+251903166512",
     icon: "phone",
     badge: "Direct Call",
+  },
+  {
+    title: "Tedbabe LearnHUB",
+    value: "tedbabelearnhub.vercel.app",
+    href: tlhUrl,
+    icon: "graduationCap",
+    badge: "Our Platform",
   },
   {
     title: "GitHub Profile",
@@ -133,16 +142,19 @@ export default function Contact() {
     <section id="contact" className="section-space relative">
       <div className="section-shell">
         <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-          <div>
+          <Reveal>
             <div className="eyebrow mb-3">
               <span className="eyebrow-dot" />
               Get in Touch
             </div>
             <h2 className="font-heading text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl">
-              Let&apos;s Build Something <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-violet-400">Exceptional</span>
+              Let&apos;s Build Something{" "}
+              <span className="animated-gradient-text">Exceptional</span>
             </h2>
             <p className="mt-4 text-base leading-relaxed text-slate-300">
-              Have an opening, an interesting project, or want to collaborate on a MERN stack web app or digital marketing campaign? I&apos;d love to hear from you.
+              Have an opening, an interesting project, or want to collaborate on
+              a MERN stack platform, a learning product, or a digital marketing
+              campaign? I&apos;d love to hear from you.
             </p>
 
             {/* Direct contact cards */}
@@ -190,9 +202,9 @@ export default function Contact() {
                 <span>Get CV</span>
               </a>
             </div>
-          </div>
+          </Reveal>
 
-          <div className="glass-panel rounded-3xl p-6 sm:p-8">
+          <Reveal className="glass-panel rounded-3xl p-6 sm:p-8">
             <form onSubmit={handleSubmit} noValidate>
               <div className="grid gap-5 sm:grid-cols-2">
                 <label className="block text-xs font-medium text-slate-300">
@@ -289,7 +301,7 @@ export default function Contact() {
                 </button>
               </div>
             </form>
-          </div>
+          </Reveal>
         </div>
       </div>
 
