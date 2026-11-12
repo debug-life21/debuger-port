@@ -327,8 +327,8 @@ export default function App() {
             </a>
             <span className="text-slate-700">•</span>
             <a
-              href="/Wendemu_Resume.pdf"
-              download="Wendemachew_Tsegaye_Resume.pdf"
+              href="/W.T-Resume.pdf"
+              download="W.T-Resume.pdf"
               className="inline-flex items-center gap-1.5 text-cyan-300 transition hover:text-white"
             >
               <Icon name="download" size={14} />

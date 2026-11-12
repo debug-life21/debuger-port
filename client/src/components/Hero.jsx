@@ -3,7 +3,7 @@ import Icon from "./Icons.jsx";
 import Reveal from "./Reveal.jsx";
 
 const profilePhoto = "/profile-pro.jpg";
-const cvPdfPath = "/Wendemu_Resume.pdf";
+const cvPdfPath = "/W.T-Resume.pdf";
 const tlhUrl = "https://tedbabelearnhub.vercel.app";
 
 const roles = [
@@ -211,7 +211,7 @@ export default function Hero() {
 
               <a
                 href={cvPdfPath}
-                download="Wendemachew_Tsegaye_Resume.pdf"
+                download="W.T-Resume.pdf"
                 className="inline-flex items-center gap-2 rounded-xl border border-transparent bg-cyan-500/10 px-4 py-3 text-sm font-medium text-cyan-300 transition hover:-translate-y-0.5 hover:bg-cyan-500/20 hover:text-cyan-200"
               >
                 <Icon name="download" size={16} />

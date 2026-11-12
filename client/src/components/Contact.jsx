@@ -190,12 +190,16 @@ export default function Contact() {
             {/* Resume button shortcut */}
             <div className="mt-6 rounded-2xl border border-cyan-400/25 bg-gradient-to-r from-cyan-950/40 to-slate-950/40 p-4 flex items-center justify-between">
               <div>
-                <p className="text-xs font-bold text-white">Need a PDF copy of my CV?</p>
-                <p className="text-[11px] text-slate-400">Includes full project &amp; course details</p>
+                <p className="text-xs font-bold text-white">
+                  Need a PDF copy of my CV?
+                </p>
+                <p className="text-[11px] text-slate-400">
+                  Includes full project &amp; course details
+                </p>
               </div>
               <a
-                href="/Wendemu_Resume.pdf"
-                download="Wendemachew_Tsegaye_Resume.pdf"
+                href="/W.T-Resume.pdf"
+                download="W.T-Resume.pdf"
                 className="inline-flex items-center gap-1.5 rounded-xl bg-cyan-400 px-3.5 py-2 text-xs font-bold text-slate-950 transition hover:bg-cyan-300"
               >
                 <Icon name="download" size={14} />
